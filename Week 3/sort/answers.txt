@@ -1,0 +1,3 @@
+sort1 : bubble sort       sorted 1.4s  random 7.6s
+sort2 : merge sort         sorted 1.3s  random 1.4s
+sort3 : selection sort     sorted 3.7s
