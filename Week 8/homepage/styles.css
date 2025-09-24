@@ -1,0 +1,15 @@
+.Site_logo{
+    font-weight: 800;
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    color: antiquewhite ;
+}
+body {
+    background-color: #f8f9fa;
+}
+
+main {
+    background-color: bisque;
+    padding-bottom: 10vh;
+    padding-top: 5vh;
+    min-height: 80vh;
+}

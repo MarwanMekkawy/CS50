@@ -1,0 +1,88 @@
+.site-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.site-title #name-container {
+    margin-left: .6rem;
+    display: inline-block;
+}
+
+.site-title .name-part {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(-8px);
+    margin-right: .6rem;
+    transition: opacity 400ms ease, transform 400ms ease;
+    will-change: opacity, transform;
+}
+
+.site-title .name-part.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.site-subtitle {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5rem;
+    color: #555;
+    margin-bottom: 2rem;
+    background: #ffe692;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+
+.main-container {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.main-container {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.image-card {
+    width: 40vw;
+    height: 50vh;
+    margin: 1rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.img1 {
+    background-image: url('https://media.4-paws.org/d/2/5/f/d25ff020556e4b5eae747c55576f3b50886c0b90/cut%20cat%20serhio%2002-1813x1811-720x719.jpg');
+}
+
+.img2 {
+    background-image: url('https://urbanark.nz/site/assets/files/1194/cat_alert_-hehaden.800x0-u0i1s1q90f1.jpg');
+}
+
+.img3 {
+    background-image: url('https://cdn.britannica.com/34/235834-050-C5843610/two-different-breeds-of-cats-side-by-side-outdoors-in-the-garden.jpg');
+}
+
+.img4 {
+    background-image: url('https://www.humaneworld.org/sites/default/files/styles/sa_social_media_facebook/public/2020-07/kitten-510651.jpg?h=f54c7448&itok=N-igK9qm');
+}

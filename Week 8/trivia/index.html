@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                // Q1
+                const form1 = document.getElementById("form1");
+                form1.addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    const marking = document.getElementById("marking");
+                    if (e.submitter.id === "Q1_button3") {
+                        marking.textContent = "Correct!";
+                        marking.style.color = "green";
+                        e.submitter.style.color = "green";
+                    }
+                    else {
+                        marking.textContent = "Incorrect!!";
+                        marking.style.color = "red";
+                        e.submitter.style.color = "red";
+                    }
+                });
+
+                // Q2
+                const form2 = document.getElementById("form2");
+                form2.addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    const input = document.getElementById("input1");
+                    const button = document.getElementById("Q2_button1");
+                    const marking2 = document.getElementById("marking2");
+
+                    if (input.value == "USA") {
+                        marking2.textContent = "Correct!";
+                        marking2.style.color = "green";
+                        input.style.color = "green";
+                        button.style.color = "green";
+                    }
+                    else if (!input.value) {
+                        marking2.textContent = "Enter an Answer Please!";
+                        marking2.style.color = "red";
+                    }
+                    else {
+                        marking2.textContent = "Incorrect!!";
+                        marking2.style.color = "red";
+                        input.style.color = "red";
+                        button.style.color = "red";
+                    }
+                    input.addEventListener("focus", () => {
+                        input.style.color = "gray";
+                        button.style.color = "black";
+                    });
+                });
+            })
+        </script>
+    </head>
+
+    <body>
+        <div class="header">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+                <form id="form1">
+                    <h3>What is the approximate ratio of people to sheep in New Zealand?</h3>
+                    <table>
+                        <tr>
+                            <td><button type="submit" id="Q1_button1" class="Q1_buttons">6 people to 1 sheep</button>
+                            </td>
+                            <td><button type="submit" id="Q1_button2" class="Q1_buttons">3 people to 1 sheep</button>
+                            </td>
+                            <td><button type="submit" id="Q1_button3" class="Q1_buttons">1 people to 1 sheep</button>
+                            </td>
+                            <td><button type="submit" id="Q1_button4" class="Q1_buttons">1 people to 3 sheep</button>
+                            </td>
+                            <td><button type="submit" id="Q1_button5" class="Q1_buttons">1 people to 6 sheep</button>
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="marking"></div>
+                </form>
+            </div>
+
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+                <!-- TODO: Add free response question here -->
+                <form id="form2">
+                    <h3>in wich country it's illegal to own only one guinea pig, as a lone guinea pig might get lonely?
+                    </h3>
+                    <input type="text" name="answer" placeholder=" Answer the Question.." id="input1"> <button
+                        type="submit" id="Q2_button1">Check Answer</button>
+                    <div id="marking2"></div>
+                </form>
+            </div>
+        </div>
+    </body>
+
+</html>

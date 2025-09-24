@@ -1,0 +1,25 @@
+# Tags
+<header>
+<main>
+<footer>
+<h1>, <h2>, <h3>
+<p>
+<form>
+<input>
+<button>
+<img>
+<a>
+
+# CSS Properties
+font-family
+height
+width
+border
+font-size
+color
+background-color
+margin
+padding
+:hover
+
+# Bootstrap was used for responsiveness and layout , while js for animations.
