@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+User Profile
+{% endblock %}
+
+{% block main %}
+<form action="/profile" method="post">
+    <div class="mb-3">
+        <input class="form-control mx-auto w-auto" name="new_password" placeholder="New Password" type="password">
+        <input class="form-control mx-auto w-auto" name="repassword" placeholder="Repassword" type="password"
+            style="margin-top: 0.2rem;">
+    </div>
+    <button class="btn btn-primary" type="submit" style="padding:0.3rem 4.7rem ">change</button>
+</form>
+<div class="mb-3">
+    <button class="btn btn-primary" id="delete-btn" type="submit"
+        style="padding:0.3rem 2.9rem ; margin-top:.5rem; background-color:red;">Delete Account</button>
+</div>
+<script>
+    document.getElementById("delete-btn").addEventListener("click", () => {
+        if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+            fetch("/profile", { method: "DELETE" })
+                .then(() => {
+                    window.location.href = "/register";
+                });
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+finance
+{% endblock %}
+
+{% block main %}
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col" class="fw-bold">Symbol</th>
+            <th scope="col" class="fw-bold">Shares</th>
+            <th scope="col" class="fw-bold">Current price</th>
+            <th scope="col" class="fw-bold">Total Shares Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set total_shares_value = namespace(value=0) %}
+        {% for stock in stocks %}
+        <tr>
+            <td>{{ stock.symbol }}</td>
+            <td>{{ stock.shares }}</td>
+            <td>{{ stock.current_price }}</td>
+            <td>${{ stock.current_price * stock.shares }}</td>
+        </tr>
+        {% set total_shares_value.value = total_shares_value.value + (stock.current_price * stock.shares) %}
+        {% endfor %}
+
+        <tr>
+            <td class="fw-bold">Total Shares Value</td>
+            <td class="fw-bold">-</td>
+            <td class="fw-bold">-</td>
+            <td>${{ total_shares_value.value }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Current Balance</td>
+            <td>${{ balance }}</td>
+            <td class="fw-bold">Net Worth</td>
+            <td>${{ total_shares_value.value + balance }}</td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

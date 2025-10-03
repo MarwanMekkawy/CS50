@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+symbol
+{% endblock %}
+
+{% block main %}
+<h1>Stock Symbol Data</h1>
+<div class="d-flex justify-content-center mt-4">
+    <table class="table table-bordered w-auto text-center">
+        <tbody>
+            <tr>
+                <th scope="row" class="fw-bold">Name</th>
+                <td>{{ name }}</td>
+            </tr>
+            <tr>
+                <th scope="row" class="fw-bold">Symbol</th>
+                <td>{{ symbol }}</td>
+            </tr>
+            <tr>
+                <th scope="row" class="fw-bold">Price [USD]</th>
+                <td>{{ price }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
