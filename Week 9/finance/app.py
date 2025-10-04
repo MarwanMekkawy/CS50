@@ -30,21 +30,34 @@ def after_request(response):
 
 
 # index ###########
-
 @app.route("/")
 @login_required
 def index():
-    """Show portfolio of stocks"""
+    """show portfolio of stocks"""
 
     user_id = session["user_id"]
-    balance = db.execute(
-        "select cash from users where username=(select username from users where id=?)", user_id)[0]["cash"]
-    stocks = db.execute("select * from stocks where user_id=?", user_id)
+    balance_row = db.execute("select cash from users where id=?", user_id)
+    balance = balance_row[0]["cash"] if balance_row else 0
+    stocks = db.execute(
+        "select symbol, shares from stocks where user_id=?", user_id)
+    total_shares_value = 0
 
     for stock in stocks:
-        stock["current_price"] = lookup(stock["symbol"])["price"]
+        quote = lookup(stock["symbol"])
+        stock["current_price"] = quote["price"]
+        stock["total_value"] = stock["shares"] * stock["current_price"]
+        total_shares_value += stock["total_value"]
 
-    return render_template("index.html", balance=balance, stocks=stocks)
+    net_worth = total_shares_value + balance
+
+    return render_template(
+        "index.html",
+        balance=balance,
+        stocks=stocks,
+        total_shares_value=total_shares_value,
+        net_worth=net_worth,
+        usd=usd
+    )
 
 
 # buy ###########
@@ -89,13 +102,22 @@ def buy():
                         else:
                             total_price = symbol_fetch_result["price"]*shares
                             balance -= total_price
-                            db.execute(
-                                "insert into stocks (user_id,symbol,shares) values(?,?,?)", user_id, symbol, shares)
+                            existing = db.execute(
+                                "SELECT shares FROM stocks WHERE user_id=? AND symbol=?", user_id, symbol)
+
+                            if existing:
+                                db.execute(
+                                    "UPDATE stocks SET shares = shares + ? WHERE user_id=? AND symbol=?", shares, user_id, symbol)
+
+                            else:
+                                db.execute(
+                                    "INSERT INTO stocks (user_id, symbol, shares) VALUES (?, ?, ?)", user_id, symbol, shares)
+
                             db.execute(
                                 "update users set cash=? where id=?", balance, user_id)
                             db.execute("insert into transactions (user_id,symbol,shares,price,type) values(?,?,?,?,?)",
                                        user_id, symbol, shares, total_price, "Buy")
-                            return apology("purchase completed", 200)
+                            return redirect("/")
 
     else:
         return render_template("buy.html")
@@ -108,9 +130,10 @@ def buy():
 def history():
     """Show history of transactions"""
 
+    user_id=session["user_id"]
     user_history = db.execute(
-        "select * from transactions order by timestamp desc")
-    return render_template("history.html", History=user_history)
+        "select * from transactions where user_id=? order by timestamp desc",user_id)
+    return render_template("history.html", History=user_history,usd=usd)
 
 
 # login ###########
@@ -177,7 +200,7 @@ def quote():
         symbol = request.form.get("symbol")
 
         if lookup(symbol) is None:
-            return apology("the symbol doesnt exist", 404)
+            return apology("the symbol doesnt exist", 400)
 
         else:
             name = lookup(symbol)["name"]
@@ -198,24 +221,24 @@ def register():
     if request.method == "POST":
         name = request.form.get("username")
         password = request.form.get("password")
-        repassword = request.form.get("repassword")
+        confirmation = request.form.get("confirmation")
         hashed_password = generate_password_hash(password)
         existing_name = db.execute(
             "select * from users where username = ?", name)
 
-        if name and password and repassword and (password == repassword) and not existing_name:
+        if name and password and confirmation and (password == confirmation) and not existing_name:
             db.execute("insert into users (username,hash) values (?,?)",
                        name, hashed_password)
             return redirect("/login")
 
-        elif not name or not password or not repassword:
+        elif not name or not password or not confirmation:
             return apology("All fields are required")
 
-        elif not (password == repassword):
+        elif not (password == confirmation):
             return apology("passwords should match")
 
         elif existing_name:
-            return apology("the name is already taken", 409)
+            return apology("the name is already taken")
 
     # check if user already logged
     else:
@@ -276,7 +299,7 @@ def sell():
         0]['cash']
 
     if request.method == "POST":
-        sold_symbol = request.form.get("stock")
+        sold_symbol = request.form.get("symbol")
         available_shares_to_sell = int(
             next((s['shares'] for s in symbols_owned if s['symbol'] == sold_symbol), 0))
         number_of_shares_to_sell = int(request.form.get("shares"))
@@ -297,7 +320,7 @@ def sell():
                            user_cash, user_id)
                 db.execute("insert into transactions (user_id,symbol,shares,price,type) values(?,?,?,?,?)",
                            user_id, sold_symbol, number_of_shares_to_sell, total_price, "Sell")
-                return apology("Selling completed", 200)
+                return redirect("/")
 
             elif available_shares_to_sell == number_of_shares_to_sell:
                 total_price = (lookup(sold_symbol)[
@@ -309,7 +332,7 @@ def sell():
                            user_cash, user_id)
                 db.execute("insert into transactions (user_id,symbol,shares,price,type) values(?,?,?,?,?)",
                            user_id, sold_symbol, number_of_shares_to_sell, total_price, "Sell")
-                return apology("Selling completed", 200)
+                return redirect("/")
 
             else:
                 return apology("Not enough shares to sell", 400)

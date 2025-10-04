@@ -8,11 +8,11 @@ history
 <table class="table table-bordered table-striped">
     <thead class="thead-dark">
          <tr>
-            <th scope="col" class="fw-bold">Symbol</th>
-            <th scope="col" class="fw-bold">Shares</th>
-            <th scope="col" class="fw-bold">Price</th>
-            <th scope="col" class="fw-bold">Type</th>
-            <th scope="col" class="fw-bold">Date</th>
+            <th scope="col" class="fw-bold">symbol</th>
+            <th scope="col" class="fw-bold">shares</th>
+            <th scope="col" class="fw-bold">price</th>
+            <th scope="col" class="fw-bold">type</th>
+            <th scope="col" class="fw-bold">date</th>
         </tr>
     </thead>
     <tbody>
@@ -20,7 +20,7 @@ history
         <tr>
             <td>{{ x.symbol }}</td>
             <td>{{ x.shares }}</td>
-            <td>{{ x.price }}</td>
+            <td>{{ usd(x.price) }}</td>
             <td>{{ x.type }}</td>
             <td>{{ x.timestamp }}</td>
         </tr>

@@ -8,7 +8,7 @@ sell
 <form action="/sell" method="post">
     <div class="mb-3">
         <label for="stock">Choose a stock:</label>
-        <select id="stock" name="stock" required>
+        <select id="stock" name="symbol" required>
            <option value="" selected disabled>Select a Stock</option>
             {% for symbol in symbols_owned %}
             <option value="{{symbol.symbol}}">{{symbol.symbol}} - Shares: {{symbol.shares}}</option>
